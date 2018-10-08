@@ -1,7 +1,12 @@
 const express = require('express');
+const fallback = require('express-history-api-fallback');
+const path = require("path");
 const app = express();
 const port = 3000;
 
-app.use(express.static('public'));
+let buildFolder = path.join(__dirname,'../build');
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.use(express.static(buildFolder));
+app.use(fallback('index.html', { root: buildFolder }));
+
+app.listen(port, () => console.log(`App listening on port ${port}!`));
